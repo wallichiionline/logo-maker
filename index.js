@@ -1,11 +1,8 @@
-const inquirer = require('inquirer');
-const fs = require('fs');
-//const { createSVGWindow } = require('svgdom');
-const { svg, registerWindow } = require('@svgdotjs/svg.js');
-const shapes = require('./lib/shapes')
-const Circle = new shapes.Cirlce;
-const Square = new shapes.Square;
-const Triangle = new shapes.Triangle;
+import { createSVGWindow } from 'svgdom';
+import inquirer from 'inquirer';
+import fs from 'fs';
+import { SVG, registerWindow } from '@svgdotjs/svg.js';
+import { Circle, Square, Triangle } from './lib/shapes.js';
 
 const window = createSVGWindow();
 const document = window.document;
