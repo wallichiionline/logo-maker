@@ -40,10 +40,39 @@ const questions = [
     }
 ];
 
+function createSVG(data) {
+    const draw = SVG(document.documentElement).size(300, 200);
+
+    let shape;
+    switch(data.shape) {
+        case 'circle':
+            shape = new Circle(data.shape, data.shapeColor);
+            break;
+        case 'square':
+            shape = new Square(data.shape, data.shapeColor);
+            break;
+        case 'triangle':
+            shape = new Triangle(data.shape, data.shapeColor);
+            break;
+    }
+    shape.render(draw);
+
+    draw.text(data.text)
+        .fill(data.textColor)
+        .font({size: 120})
+        .move(150, 0)
+        .attr({'text-anchor': 'middle'});
+
+    fs.writeFileSync('logo.svg', draw.svg());
+    console.log("Generated logo.svg");
+
+}
+
 function init(){
     inquirer.prompt(questions)
     .then((answers) => {
         console.log(answers);
+        createSVG(answers);
     })
     .catch((error) => {
         console.log(error);
