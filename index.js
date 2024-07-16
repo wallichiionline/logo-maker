@@ -1,23 +1,17 @@
-import { createSVGWindow } from 'svgdom';
-import inquirer from 'inquirer';
-import fs from 'fs';
-import { SVG, registerWindow } from '@svgdotjs/svg.js';
-import { Circle, Square, Triangle } from './lib/shapes.js';
-
-const window = createSVGWindow();
-const document = window.document;
-registerWindow (window, document);
+const inquirer = require("inquirer");
+const fs = require('fs');
+const { Circle, Square, Triangle } = require('./lib/shapes.js');
 
 const questions = [
     {
         type: 'input',
         name: 'text',
-        message: 'Enter up to three characters',
-        validate(value){
-            if(value.length > 3){
-                return 'Please enter ONLY 3 characters';
+        message: 'Enter up to 3 characters',
+        validate(value) {
+            if(value.length > 3) {
+                return 'Please enter only 3 characters';
             }
-            else{
+            else {
                 return true;
             }
         }
@@ -41,7 +35,7 @@ const questions = [
 ];
 
 function createSVG(data) {
-    const draw = SVG(document.documentElement).size(300, 200);
+    let svg = '<svg version="1.1" width="300" height="200">';
 
     let shape;
     switch(data.shape) {
@@ -55,28 +49,32 @@ function createSVG(data) {
             shape = new Triangle(data.shape, data.shapeColor);
             break;
     }
-    shape.render(draw);
+    svg += shape.render();
 
-    draw.text(data.text)
+    svg += '<text fill="' + data.textColor + '" font-size="120" x="150" y="128.26171875" text-anchor="middle"><tspan dy="0" x="150">' + data.text + '</tspan></text>';
+
+    svg += '</svg>';
+
+    /*draw.text(data.text)
         .fill(data.textColor)
         .font({size: 120})
         .move(150, 0)
-        .attr({'text-anchor': 'middle'});
+        .attr({'text-anchor': 'middle'});*/
 
-    fs.writeFileSync('logo.svg', draw.svg());
+    fs.writeFileSync('logo.svg', svg);
     console.log("Generated logo.svg");
 
 }
 
-function init(){
+function init() {
     inquirer.prompt(questions)
-    .then((answers) => {
-        console.log(answers);
-        createSVG(answers);
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+        .then((answers) => {
+            console.log(answers);
+            createSVG(answers);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 init();
