@@ -35,18 +35,18 @@ const questions = [
 ];
 
 function createSVG(data) {
-    let svg = '<svg version="1.1" width="300" height="200">';
+    let svg = '<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">';
 
     let shape;
     switch(data.shape) {
         case 'circle':
-            shape = new Circle(data.shape, data.shapeColor);
+            shape = new Circle(data.shapeColor);
             break;
         case 'square':
-            shape = new Square(data.shape, data.shapeColor);
+            shape = new Square(data.shapeColor);
             break;
         case 'triangle':
-            shape = new Triangle(data.shape, data.shapeColor);
+            shape = new Triangle(data.shapeColor);
             break;
     }
     svg += shape.render();
